@@ -1,0 +1,15 @@
+package: .
+legacy: true
+without-dynamic-expressions: true
+
+types:
+  - name: ExecutionPayload
+    output: executionpayload_ssz.go
+  - name: PayloadAttributes
+    output: payloadattributes_ssz.go
+  - name: ForkchoiceState
+    output: forkchoicestate_ssz.go
+  - name: PayloadStatus
+    output: payloadstatus_ssz.go
+  - name: ForkchoiceUpdatedResponse
+    output: forkchoiceupdatedresponse_ssz.go

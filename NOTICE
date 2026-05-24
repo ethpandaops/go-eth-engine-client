@@ -1,0 +1,31 @@
+go-eth-engine-client
+Copyright 2026 ethPandaOps
+
+This product includes software developed by ethPandaOps
+(https://ethpandaops.io).
+
+================================================================================
+Attribution
+================================================================================
+
+The package layout, fork-versioned spec subtrees, and Versioned* wrapper
+pattern of this library are heavily inspired by Attestant's go-eth2-client
+(https://github.com/attestantio/go-eth2-client), which is licensed under the
+Apache License, Version 2.0.
+
+In particular, the conventions for:
+  * one Go package per Engine-API fork (paris, shanghai, cancun, prague,
+    osaka, amsterdam) — go-eth2-client uses consensus-layer fork names for
+    the same idea; this library uses the execution-layer names because the
+    Engine API specification itself organises its documents that way,
+  * co-locating per-fork structures, JSON marshaling, and SSZ codecs,
+  * exposing a top-level spec package with fork-agnostic Versioned* accessor
+    types that switch on a DataVersion enum,
+
+are reproduced from Attestant's design. The data structures themselves track
+the Engine API specification at https://github.com/ethereum/execution-apis
+(see in particular src/engine/*.md and the SSZ transport draft in
+ethereum/execution-apis#764).
+
+No source code from go-eth2-client is copied verbatim; the implementations
+in this repository are written independently against the Engine API spec.
