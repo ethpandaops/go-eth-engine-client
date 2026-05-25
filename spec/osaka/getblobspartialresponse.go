@@ -11,13 +11,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package paris
+package osaka
 
-// ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV1 and is wrapped by the SSZ container
-// `ForkchoiceUpdatedV1Request`. PayloadAttributes is optional (encoded as
-// `List[PayloadAttributesV1, 1]` in SSZ).
-type ForkchoiceUpdatedRequest struct {
-	ForkchoiceState   *ForkchoiceState
-	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
+// GetBlobsPartialResponse is the response from engine_getBlobsV3 — the
+// variant that supports partial responses. It corresponds to the SSZ
+// container `GetBlobsV3Response`:
+// `List[List[BlobAndProofV2, 1], MAX_BLOB_HASHES_REQUEST]`. A missing
+// blob is a nil entry in BlobsAndProofs; the canonical optional-list
+// (List[T, 1]) form encodes the inner pointer.
+type GetBlobsPartialResponse struct {
+	BlobsAndProofs []*BlobAndProof `dynssz-max:"MAX_BLOB_HASHES_REQUEST" ssz-max:"128" ssz-type:"list,optional-list" json:"blobsAndProofs"`
 }

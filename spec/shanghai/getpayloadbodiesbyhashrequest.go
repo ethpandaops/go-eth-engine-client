@@ -23,10 +23,3 @@ import (
 type GetPayloadBodiesByHashRequest struct {
 	BlockHashes []paris.Hash32 `dynssz-max:"MAX_PAYLOAD_BODIES_REQUEST" ssz-max:"32" ssz-size:"?,32"`
 }
-
-// GetPayloadBodiesByRangeRequest carries the parameters of
-// engine_getPayloadBodiesByRangeV1.
-type GetPayloadBodiesByRangeRequest struct {
-	Start uint64
-	Count uint64
-}

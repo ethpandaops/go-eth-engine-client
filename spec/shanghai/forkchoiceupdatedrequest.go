@@ -18,9 +18,11 @@ import (
 )
 
 // ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV2. The forkchoice state shape is unchanged from
-// V1 (ForkchoiceStateV1), but the payload attributes use V2.
+// engine_forkchoiceUpdatedV2 and is wrapped by the SSZ container
+// `ForkchoiceUpdatedV2Request`. The forkchoice state shape is unchanged
+// from V1 (ForkchoiceStateV1); payload attributes use V2 and are optional
+// (encoded as `List[PayloadAttributesV2, 1]`).
 type ForkchoiceUpdatedRequest struct {
 	ForkchoiceState   *paris.ForkchoiceState
-	PayloadAttributes *PayloadAttributes
+	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
 }

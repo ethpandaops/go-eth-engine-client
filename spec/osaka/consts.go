@@ -11,13 +11,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package paris
+package osaka
 
-// ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV1 and is wrapped by the SSZ container
-// `ForkchoiceUpdatedV1Request`. PayloadAttributes is optional (encoded as
-// `List[PayloadAttributesV1, 1]` in SSZ).
-type ForkchoiceUpdatedRequest struct {
-	ForkchoiceState   *ForkchoiceState
-	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
-}
+// SSZ list-size limits introduced in Osaka (EIP-7594 cell proofs).
+const (
+	// CellsPerExtBlob is the number of cells in an extended blob.
+	CellsPerExtBlob = 128
+	// MaxBlobProofsBundle is the maximum total number of cell proofs in a
+	// BlobsBundleV2 (MAX_BLOB_COMMITMENTS_PER_BLOCK * CELLS_PER_EXT_BLOB).
+	MaxBlobProofsBundle = 4096 * 128
+)

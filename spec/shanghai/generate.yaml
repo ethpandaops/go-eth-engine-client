@@ -13,6 +13,10 @@ types:
     output: executionpayloadbody_ssz.go
   - name: GetPayloadResponse
     output: getpayloadresponse_ssz.go
+  - name: NewPayloadRequest
+    output: newpayloadrequest_ssz.go
+  - name: ForkchoiceUpdatedRequest
+    output: forkchoiceupdatedrequest_ssz.go
   - name: GetPayloadBodiesByHashRequest
     output: getpayloadbodiesbyhashrequest_ssz.go
   - name: GetPayloadBodiesByRangeRequest

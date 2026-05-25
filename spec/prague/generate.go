@@ -11,13 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package paris
+package prague
 
-// ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV1 and is wrapped by the SSZ container
-// `ForkchoiceUpdatedV1Request`. PayloadAttributes is optional (encoded as
-// `List[PayloadAttributesV1, 1]` in SSZ).
-type ForkchoiceUpdatedRequest struct {
-	ForkchoiceState   *ForkchoiceState
-	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
-}
+//go:generate rm -f *_ssz.go
+//go:generate go tool dynssz-gen -config generate.yaml

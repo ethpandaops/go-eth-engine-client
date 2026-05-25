@@ -1,0 +1,9 @@
+package: .
+legacy: true
+without-dynamic-expressions: true
+
+types:
+  - name: NewPayloadRequest
+    output: newpayloadrequest_ssz.go
+  - name: GetPayloadResponse
+    output: getpayloadresponse_ssz.go

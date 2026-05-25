@@ -11,13 +11,11 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package paris
+package shanghai
 
-// ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV1 and is wrapped by the SSZ container
-// `ForkchoiceUpdatedV1Request`. PayloadAttributes is optional (encoded as
-// `List[PayloadAttributesV1, 1]` in SSZ).
-type ForkchoiceUpdatedRequest struct {
-	ForkchoiceState   *ForkchoiceState
-	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
+// GetPayloadBodiesByRangeRequest carries the parameters of
+// engine_getPayloadBodiesByRangeV1.
+type GetPayloadBodiesByRangeRequest struct {
+	Start uint64
+	Count uint64
 }

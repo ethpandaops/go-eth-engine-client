@@ -7,13 +7,11 @@ types:
     output: executionpayload_ssz.go
   - name: PayloadAttributes
     output: payloadattributes_ssz.go
-  - name: ForkchoiceState
-    output: forkchoicestate_ssz.go
-  - name: PayloadStatus
-    output: payloadstatus_ssz.go
-  - name: ForkchoiceUpdatedResponse
-    output: forkchoiceupdatedresponse_ssz.go
+  - name: ExecutionPayloadBody
+    output: executionpayloadbody_ssz.go
   - name: NewPayloadRequest
     output: newpayloadrequest_ssz.go
   - name: ForkchoiceUpdatedRequest
     output: forkchoiceupdatedrequest_ssz.go
+  - name: GetPayloadResponse
+    output: getpayloadresponse_ssz.go

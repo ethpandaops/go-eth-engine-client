@@ -3,21 +3,17 @@ legacy: true
 without-dynamic-expressions: true
 
 types:
-  - name: ExecutionPayload
-    output: executionpayload_ssz.go
-  - name: PayloadAttributes
-    output: payloadattributes_ssz.go
   - name: BlobsBundle
     output: blobsbundle_ssz.go
   - name: BlobAndProof
     output: blobandproof_ssz.go
   - name: GetPayloadResponse
     output: getpayloadresponse_ssz.go
-  - name: NewPayloadRequest
-    output: newpayloadrequest_ssz.go
-  - name: ForkchoiceUpdatedRequest
-    output: forkchoiceupdatedrequest_ssz.go
   - name: GetBlobsRequest
     output: getblobsrequest_ssz.go
   - name: GetBlobsResponse
     output: getblobsresponse_ssz.go
+  - name: GetBlobsPartialRequest
+    output: getblobspartialrequest_ssz.go
+  - name: GetBlobsPartialResponse
+    output: getblobspartialresponse_ssz.go

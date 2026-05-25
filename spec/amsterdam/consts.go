@@ -11,13 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package paris
+package amsterdam
 
-// ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV1 and is wrapped by the SSZ container
-// `ForkchoiceUpdatedV1Request`. PayloadAttributes is optional (encoded as
-// `List[PayloadAttributesV1, 1]` in SSZ).
-type ForkchoiceUpdatedRequest struct {
-	ForkchoiceState   *ForkchoiceState
-	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
-}
+// SSZ list-size and byte-length limits introduced in Amsterdam.
+const (
+	// CustodyColumnsLength is the byte length of the
+	// custodyColumns bit-array sent on engine_forkchoiceUpdatedV4 as a
+	// 3rd JSON-RPC parameter (CELLS_PER_EXT_BLOB / 8 = 16 bytes).
+	CustodyColumnsLength = 16
+	// MaxBlockAccessListBytes mirrors MAX_BYTES_PER_TRANSACTION as used
+	// for the RLP-encoded block access list (EIP-7928).
+	MaxBlockAccessListBytes = 1 << 30
+)

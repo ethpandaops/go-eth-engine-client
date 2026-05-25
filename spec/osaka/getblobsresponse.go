@@ -11,13 +11,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package paris
+package osaka
 
-// ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV1 and is wrapped by the SSZ container
-// `ForkchoiceUpdatedV1Request`. PayloadAttributes is optional (encoded as
-// `List[PayloadAttributesV1, 1]` in SSZ).
-type ForkchoiceUpdatedRequest struct {
-	ForkchoiceState   *ForkchoiceState
-	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
+// GetBlobsResponse is the response from engine_getBlobsV2 — the
+// all-or-nothing variant. It corresponds to the SSZ container
+// `GetBlobsV2Response`. Each entry is a non-nullable cell-proof
+// BlobAndProof; positions correspond to the request's versioned hashes.
+type GetBlobsResponse struct {
+	BlobsAndProofs []*BlobAndProof `dynssz-max:"MAX_BLOB_HASHES_REQUEST" ssz-max:"128" json:"blobsAndProofs"`
 }

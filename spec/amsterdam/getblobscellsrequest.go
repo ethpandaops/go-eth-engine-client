@@ -11,13 +11,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package paris
+package amsterdam
 
-// ForkchoiceUpdatedRequest carries the parameters of
-// engine_forkchoiceUpdatedV1 and is wrapped by the SSZ container
-// `ForkchoiceUpdatedV1Request`. PayloadAttributes is optional (encoded as
-// `List[PayloadAttributesV1, 1]` in SSZ).
-type ForkchoiceUpdatedRequest struct {
-	ForkchoiceState   *ForkchoiceState
-	PayloadAttributes *PayloadAttributes `ssz-type:"optional-list"`
+import (
+	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
+)
+
+// GetBlobsCellsRequest carries the parameters of engine_getBlobsV4 — the
+// cell-based variant that fetches individual blob cells (rather than full
+// blobs) and supports partial responses.
+//
+// JSON-RPC only at the time of writing; PR #764 does not yet define a
+// matching SSZ container.
+type GetBlobsCellsRequest struct {
+	VersionedBlobHashes []paris.Hash32 `json:"versioned_blob_hashes"`
+	IndicesBitarray     [16]byte       `json:"indices_bitarray"`
 }
