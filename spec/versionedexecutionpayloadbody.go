@@ -20,21 +20,30 @@ import (
 )
 
 // VersionedExecutionPayloadBody wraps the per-fork ExecutionPayloadBody
-// types. ExecutionPayloadBody is only defined from shanghai onwards;
-// pre-shanghai entries do not exist.
+// types. ExecutionPayloadBody is defined from shanghai onwards; the cancun,
+// prague, and osaka forks reuse the shanghai V1 schema, so their fields
+// point at *shanghai.ExecutionPayloadBody.
 type VersionedExecutionPayloadBody struct {
 	Version version.DataVersion
 
 	Shanghai  *shanghai.ExecutionPayloadBody
+	Cancun    *shanghai.ExecutionPayloadBody
+	Prague    *shanghai.ExecutionPayloadBody
+	Osaka     *shanghai.ExecutionPayloadBody
 	Amsterdam *amsterdam.ExecutionPayloadBody
 }
 
 // IsEmpty returns true if no body is set for the current version.
 func (v *VersionedExecutionPayloadBody) IsEmpty() bool {
 	switch v.Version {
-	case version.DataVersionShanghai, version.DataVersionCancun,
-		version.DataVersionPrague, version.DataVersionOsaka:
+	case version.DataVersionShanghai:
 		return v.Shanghai == nil
+	case version.DataVersionCancun:
+		return v.Cancun == nil
+	case version.DataVersionPrague:
+		return v.Prague == nil
+	case version.DataVersionOsaka:
+		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
 	default:

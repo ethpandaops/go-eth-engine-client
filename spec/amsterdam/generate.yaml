@@ -15,3 +15,9 @@ types:
     output: forkchoiceupdatedrequest_ssz.go
   - name: GetPayloadResponse
     output: getpayloadresponse_ssz.go
+  - name: BlobCellsAndProofs
+    output: blobcellsandproofs_ssz.go
+  - name: GetBlobsCellsRequest
+    output: getblobscellsrequest_ssz.go
+  - name: GetBlobsCellsResponse
+    output: getblobscellsresponse_ssz.go

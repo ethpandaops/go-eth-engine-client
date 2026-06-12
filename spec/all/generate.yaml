@@ -1,0 +1,84 @@
+package: .
+
+types:
+  - name: ExecutionPayload
+    output: executionpayload_ssz.go
+    view-only: true
+    views:
+      - ../paris.ExecutionPayload
+      - ../shanghai.ExecutionPayload
+      - ../cancun.ExecutionPayload
+      - ../amsterdam.ExecutionPayload
+
+  - name: PayloadAttributes
+    output: payloadattributes_ssz.go
+    view-only: true
+    views:
+      - ../paris.PayloadAttributes
+      - ../shanghai.PayloadAttributes
+      - ../cancun.PayloadAttributes
+      - ../amsterdam.PayloadAttributes
+
+  - name: ExecutionPayloadBody
+    output: executionpayloadbody_ssz.go
+    view-only: true
+    views:
+      - ../shanghai.ExecutionPayloadBody
+      - ../amsterdam.ExecutionPayloadBody
+
+  - name: BlobsBundle
+    output: blobsbundle_ssz.go
+    view-only: true
+    views:
+      - ../cancun.BlobsBundle
+      - ../osaka.BlobsBundle
+
+  - name: BlobAndProof
+    output: blobandproof_ssz.go
+    view-only: true
+    views:
+      - ../cancun.BlobAndProof
+      - ../osaka.BlobAndProof
+
+  - name: NewPayloadRequest
+    output: newpayloadrequest_ssz.go
+    view-only: true
+    views:
+      - ../paris.NewPayloadRequest
+      - ../shanghai.NewPayloadRequest
+      - ../cancun.NewPayloadRequest
+      - ../prague.NewPayloadRequest
+      - ../amsterdam.NewPayloadRequest
+
+  - name: ForkchoiceUpdatedRequest
+    output: forkchoiceupdatedrequest_ssz.go
+    view-only: true
+    views:
+      - ../paris.ForkchoiceUpdatedRequest
+      - ../shanghai.ForkchoiceUpdatedRequest
+      - ../cancun.ForkchoiceUpdatedRequest
+      - ../amsterdam.ForkchoiceUpdatedRequest
+
+  - name: GetPayloadResponse
+    output: getpayloadresponse_ssz.go
+    view-only: true
+    views:
+      - ../shanghai.GetPayloadResponse
+      - ../cancun.GetPayloadResponse
+      - ../prague.GetPayloadResponse
+      - ../osaka.GetPayloadResponse
+      - ../amsterdam.GetPayloadResponse
+
+  - name: GetBlobsRequest
+    output: getblobsrequest_ssz.go
+    view-only: true
+    views:
+      - ../cancun.GetBlobsRequest
+      - ../osaka.GetBlobsRequest
+
+  - name: GetBlobsResponse
+    output: getblobsresponse_ssz.go
+    view-only: true
+    views:
+      - ../cancun.GetBlobsResponse
+      - ../osaka.GetBlobsResponse

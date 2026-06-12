@@ -6,6 +6,7 @@ require (
 	github.com/holiman/uint256 v1.3.2
 	github.com/pk910/dynamic-ssz v1.3.2-0.20260523004546-c95cd65e47a2
 	github.com/pkg/errors v0.9.1
+	github.com/sirupsen/logrus v1.9.4
 )
 
 require (

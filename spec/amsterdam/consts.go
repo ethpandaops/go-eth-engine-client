@@ -22,4 +22,12 @@ const (
 	// MaxBlockAccessListBytes mirrors MAX_BYTES_PER_TRANSACTION as used
 	// for the RLP-encoded block access list (EIP-7928).
 	MaxBlockAccessListBytes = 1 << 30
+	// CellsPerExtBlob is the number of cells in an extended blob (EIP-7594).
+	CellsPerExtBlob = 128
+	// CellLength is the size in bytes of a single blob cell: 64 field
+	// elements of 32 bytes each (EIP-7594).
+	CellLength = 64 * 32
+	// MaxBlobHashesRequest is the maximum number of blob versioned hashes
+	// in an engine_getBlobs request.
+	MaxBlobHashesRequest = 128
 )

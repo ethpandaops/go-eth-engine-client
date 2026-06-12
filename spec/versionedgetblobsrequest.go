@@ -14,43 +14,27 @@
 package spec
 
 import (
-	"github.com/ethpandaops/go-eth-engine-client/spec/amsterdam"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
-	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
-	"github.com/ethpandaops/go-eth-engine-client/spec/prague"
-	"github.com/ethpandaops/go-eth-engine-client/spec/shanghai"
+	"github.com/ethpandaops/go-eth-engine-client/spec/osaka"
 	"github.com/ethpandaops/go-eth-engine-client/spec/version"
 )
 
-// VersionedNewPayloadRequest wraps the per-fork NewPayloadRequest types.
-// Osaka reuses prague's V4 newPayload request, so its field points at
-// *prague.NewPayloadRequest.
-type VersionedNewPayloadRequest struct {
+// VersionedGetBlobsRequest wraps the per-fork all-or-nothing GetBlobsRequest
+// types: cancun's V1 and osaka's V2 (identical shape, distinct methods).
+type VersionedGetBlobsRequest struct {
 	Version version.DataVersion
 
-	Paris     *paris.NewPayloadRequest
-	Shanghai  *shanghai.NewPayloadRequest
-	Cancun    *cancun.NewPayloadRequest
-	Prague    *prague.NewPayloadRequest
-	Osaka     *prague.NewPayloadRequest
-	Amsterdam *amsterdam.NewPayloadRequest
+	Cancun *cancun.GetBlobsRequest
+	Osaka  *osaka.GetBlobsRequest
 }
 
 // IsEmpty returns true if no request is set for the current version.
-func (v *VersionedNewPayloadRequest) IsEmpty() bool {
+func (v *VersionedGetBlobsRequest) IsEmpty() bool {
 	switch v.Version {
-	case version.DataVersionParis:
-		return v.Paris == nil
-	case version.DataVersionShanghai:
-		return v.Shanghai == nil
 	case version.DataVersionCancun:
 		return v.Cancun == nil
-	case version.DataVersionPrague:
-		return v.Prague == nil
 	case version.DataVersionOsaka:
 		return v.Osaka == nil
-	case version.DataVersionAmsterdam:
-		return v.Amsterdam == nil
 	default:
 		return true
 	}

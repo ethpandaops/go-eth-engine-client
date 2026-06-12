@@ -24,10 +24,9 @@ import (
 type VersionedBlobsBundle struct {
 	Version version.DataVersion
 
-	Cancun *cancun.BlobsBundle
-	Prague *cancun.BlobsBundle
-	Osaka  *osaka.BlobsBundle
-	// Amsterdam uses the same BlobsBundleV2 as osaka.
+	Cancun    *cancun.BlobsBundle
+	Prague    *cancun.BlobsBundle
+	Osaka     *osaka.BlobsBundle
 	Amsterdam *osaka.BlobsBundle
 }
 

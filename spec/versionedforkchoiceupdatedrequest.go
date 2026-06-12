@@ -23,15 +23,21 @@ import (
 
 // VersionedForkchoiceUpdatedRequest wraps the per-fork
 // ForkchoiceUpdatedRequest types. Prague and Osaka reuse cancun's V3.
+//
+// CustodyColumns is the amsterdam-only third JSON-RPC parameter to
+// engine_forkchoiceUpdatedV4. It has no SSZ representation in the per-fork
+// request containers, so it is carried alongside them here for the
+// JSON-RPC client to consume when Version is amsterdam.
 type VersionedForkchoiceUpdatedRequest struct {
 	Version version.DataVersion
 
-	Paris     *paris.ForkchoiceUpdatedRequest
-	Shanghai  *shanghai.ForkchoiceUpdatedRequest
-	Cancun    *cancun.ForkchoiceUpdatedRequest
-	Prague    *cancun.ForkchoiceUpdatedRequest
-	Osaka     *cancun.ForkchoiceUpdatedRequest
-	Amsterdam *amsterdam.ForkchoiceUpdatedRequest
+	Paris          *paris.ForkchoiceUpdatedRequest
+	Shanghai       *shanghai.ForkchoiceUpdatedRequest
+	Cancun         *cancun.ForkchoiceUpdatedRequest
+	Prague         *cancun.ForkchoiceUpdatedRequest
+	Osaka          *cancun.ForkchoiceUpdatedRequest
+	Amsterdam      *amsterdam.ForkchoiceUpdatedRequest
+	CustodyColumns *amsterdam.CustodyColumns
 }
 
 // IsEmpty returns true if no request is set for the current version.

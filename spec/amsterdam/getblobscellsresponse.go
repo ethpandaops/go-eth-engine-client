@@ -13,11 +13,14 @@
 
 package amsterdam
 
-// GetBlobsCellsResponse is the response from engine_getBlobsV4. Entries
-// are nullable per the JSON spec (a `null` entry indicates a missing blob).
+// GetBlobsCellsResponse is the response from engine_getBlobsV4. Entries are
+// nullable per the JSON spec (a `null` entry indicates a missing blob),
+// encoded as `List[List[BlobCellsAndProofsV1, 1], MAX_BLOB_HASHES_REQUEST]`
+// in SSZ.
 //
-// JSON-RPC only at the time of writing; PR #764 does not yet define a
-// matching SSZ container.
+// The PR #764 SSZ transport spec does not define this container; the SSZ
+// schema here follows the same nullable-list convention as the other
+// getBlobs responses.
 type GetBlobsCellsResponse struct {
-	BlobsAndProofs []*BlobCellsAndProofs `json:"blobsAndProofs"`
+	BlobsAndProofs []*BlobCellsAndProofs `ssz-type:"list,optional-list" dynssz-max:"MAX_BLOB_HASHES_REQUEST" ssz-max:"128" json:"blobsAndProofs"`
 }
