@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package http
+package jsonrpc
 
 import (
 	"net/http"
@@ -32,7 +32,7 @@ type parameters struct {
 	jwtClientVer  string
 }
 
-// Parameter is a functional option for the http Service.
+// Parameter is a functional option for the jsonrpc Service.
 type Parameter interface {
 	apply(*parameters)
 }

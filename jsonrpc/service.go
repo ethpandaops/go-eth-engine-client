@@ -11,11 +11,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Package http provides a JSON-RPC implementation of the Engine API client
-// interfaces defined in the root engine package. It authenticates with the
-// JWT (HS256) scheme required by the Engine API and dispatches each
-// fork-agnostic request to the appropriate versioned JSON-RPC method.
-package http
+// Package jsonrpc provides the legacy JSON-RPC implementation of the Engine
+// API client interfaces defined in the root engine package. It authenticates
+// with the JWT (HS256) scheme required by the Engine API and dispatches each
+// fork-agnostic request to the appropriate versioned `engine_*` JSON-RPC
+// method.
+//
+// For the upcoming REST + SSZ transport (execution-apis PR #793 -- Marius
+// spec), see the sibling `rest` package.
+package jsonrpc
 
 import (
 	"context"
@@ -83,7 +87,7 @@ func New(_ context.Context, params ...Parameter) (*Service, error) {
 	}
 
 	return &Service{
-		log:     p.log.WithField("package", "github.com/ethpandaops/go-eth-engine-client/http"),
+		log:     p.log.WithField("package", "github.com/ethpandaops/go-eth-engine-client/jsonrpc"),
 		address: p.address,
 		client:  client,
 		timeout: p.timeout,

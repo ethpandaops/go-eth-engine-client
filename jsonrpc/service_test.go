@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package http_test
+package jsonrpc_test
 
 import (
 	"context"
@@ -27,7 +27,7 @@ import (
 
 	"github.com/holiman/uint256"
 
-	enginehttp "github.com/ethpandaops/go-eth-engine-client/http"
+	"github.com/ethpandaops/go-eth-engine-client/jsonrpc"
 	"github.com/ethpandaops/go-eth-engine-client/spec"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
 	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
@@ -117,12 +117,12 @@ func newTestServer(t *testing.T, secret []byte, handler func(method string, para
 	}))
 }
 
-func newTestService(t *testing.T, srv *httptest.Server, secret []byte) *enginehttp.Service {
+func newTestService(t *testing.T, srv *httptest.Server, secret []byte) *jsonrpc.Service {
 	t.Helper()
 
-	svc, err := enginehttp.New(context.Background(),
-		enginehttp.WithAddress(srv.URL),
-		enginehttp.WithJWTSecret(secret),
+	svc, err := jsonrpc.New(context.Background(),
+		jsonrpc.WithAddress(srv.URL),
+		jsonrpc.WithJWTSecret(secret),
 	)
 	if err != nil {
 		t.Fatalf("New: %v", err)

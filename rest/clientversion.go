@@ -11,7 +11,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package http
+package rest
 
 import (
 	"context"
@@ -19,21 +19,19 @@ import (
 	"github.com/ethpandaops/go-eth-engine-client/spec/identification"
 )
 
-// ClientVersion exchanges client identity via engine_getClientVersionV1,
-// sending the consensus client's version and returning the execution
-// client's version information.
+// ClientVersion returns the EL's identity via GET /engine/v2/identity. The
+// CL's identity is no longer carried in the request body -- it travels on
+// every request as the X-Engine-Client-Version header, configured via
+// [WithClientVersionHeader]. The argument is therefore ignored and kept
+// only to satisfy the [engine.ClientVersionProvider] interface shared with
+// the legacy JSON-RPC transport.
+//
+// TODO: implement once IdentityResponse (the
+// `List[ClientVersion, MAX_CLIENT_VERSIONS]` wrapper) lands in
+// spec/identification/.
 func (s *Service) ClientVersion(
-	ctx context.Context,
-	clientVersion *identification.ClientVersion,
+	_ context.Context,
+	_ *identification.ClientVersion,
 ) ([]*identification.ClientVersion, error) {
-	if clientVersion == nil {
-		clientVersion = &identification.ClientVersion{}
-	}
-
-	var out []*identification.ClientVersion
-	if err := s.call(ctx, "engine_getClientVersionV1", []any{clientVersion}, &out); err != nil {
-		return nil, err
-	}
-
-	return out, nil
+	return nil, ErrNotImplemented
 }

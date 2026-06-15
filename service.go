@@ -12,8 +12,13 @@
 // limitations under the License.
 
 // Package engine defines the fork-agnostic interfaces for an Ethereum Engine
-// API client. The concrete JSON-RPC implementation lives in the http
-// subpackage.
+// API client. Two concrete implementations live in sibling packages:
+//
+//   - `jsonrpc` -- the legacy JSON-RPC transport (engine_* methods over
+//     JSON-RPC 2.0 with JWT auth).
+//   - `rest` -- the upcoming REST + SSZ transport (Marius spec, see
+//     execution-apis PR #793). Currently a scaffold; method implementations
+//     return ErrNotImplemented.
 //
 // Every method provider exposes two entry points:
 //
