@@ -77,6 +77,8 @@ func versionFieldName(v version.DataVersion) (string, error) {
 		return "Osaka", nil
 	case version.DataVersionAmsterdam:
 		return "Amsterdam", nil
+	case version.DataVersionBogota:
+		return "Bogota", nil
 	default:
 		return "", fmt.Errorf("unsupported version %d", v)
 	}

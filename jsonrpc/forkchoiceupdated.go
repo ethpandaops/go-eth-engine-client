@@ -89,6 +89,16 @@ func (s *Service) ForkchoiceUpdated(
 		if request.Amsterdam.PayloadAttributes != nil {
 			fcu.attrs = request.Amsterdam.PayloadAttributes
 		}
+	case version.DataVersionBogota:
+		method = "engine_forkchoiceUpdatedV5"
+		if request.Bogota == nil {
+			return nil, errors.New("ForkchoiceUpdated: nil bogota request")
+		}
+
+		fcu.state = request.Bogota.ForkchoiceState
+		if request.Bogota.PayloadAttributes != nil {
+			fcu.attrs = request.Bogota.PayloadAttributes
+		}
 	default:
 		return nil, errors.Errorf("ForkchoiceUpdated: unsupported version %s", request.Version)
 	}
@@ -99,15 +109,9 @@ func (s *Service) ForkchoiceUpdated(
 
 	params := []any{fcu.state, fcu.attrs}
 
-	// engine_forkchoiceUpdatedV4 takes an additional custodyColumns
-	// parameter (null when the CL provides no custody set).
-	if request.Version == version.DataVersionAmsterdam {
-		var custody any
-		if request.CustodyColumns != nil {
-			custody = request.CustodyColumns
-		}
-
-		params = append(params, custody)
+	// engine_forkchoiceUpdatedV4+ accepts an optional trailing custodyColumns parameter.
+	if request.Version >= version.DataVersionAmsterdam && request.CustodyColumns != nil {
+		params = append(params, request.CustodyColumns)
 	}
 
 	response := &paris.ForkchoiceUpdatedResponse{}

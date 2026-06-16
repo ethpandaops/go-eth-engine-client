@@ -32,7 +32,8 @@ import (
 
 // VersionedExecutionPayload contains an execution payload that may be from
 // any fork that defines an ExecutionPayload shape: paris, shanghai, cancun
-// (also used through prague + osaka), or amsterdam.
+// (also used through prague + osaka), amsterdam, or bogota (which reuses
+// amsterdam's ExecutionPayloadV4).
 type VersionedExecutionPayload struct {
 	Version version.DataVersion
 
@@ -42,6 +43,7 @@ type VersionedExecutionPayload struct {
 	Prague    *cancun.ExecutionPayload
 	Osaka     *cancun.ExecutionPayload
 	Amsterdam *amsterdam.ExecutionPayload
+	Bogota    *amsterdam.ExecutionPayload
 }
 
 // IsEmpty returns true if no payload is set for the current version.
@@ -59,6 +61,8 @@ func (v *VersionedExecutionPayload) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}
@@ -103,6 +107,12 @@ func (v *VersionedExecutionPayload) ParentHash() (paris.Hash32, error) {
 		}
 
 		return v.Amsterdam.ParentHash, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return paris.Hash32{}, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.ParentHash, nil
 	default:
 		return paris.Hash32{}, errors.New("unknown version")
 	}
@@ -147,6 +157,12 @@ func (v *VersionedExecutionPayload) BlockHash() (paris.Hash32, error) {
 		}
 
 		return v.Amsterdam.BlockHash, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return paris.Hash32{}, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.BlockHash, nil
 	default:
 		return paris.Hash32{}, errors.New("unknown version")
 	}
@@ -191,6 +207,12 @@ func (v *VersionedExecutionPayload) BlockNumber() (uint64, error) {
 		}
 
 		return v.Amsterdam.BlockNumber, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return 0, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.BlockNumber, nil
 	default:
 		return 0, errors.New("unknown version")
 	}
@@ -235,6 +257,12 @@ func (v *VersionedExecutionPayload) Timestamp() (uint64, error) {
 		}
 
 		return v.Amsterdam.Timestamp, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return 0, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.Timestamp, nil
 	default:
 		return 0, errors.New("unknown version")
 	}
@@ -279,6 +307,12 @@ func (v *VersionedExecutionPayload) BaseFeePerGas() (*uint256.Int, error) {
 		}
 
 		return v.Amsterdam.BaseFeePerGas, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return nil, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.BaseFeePerGas, nil
 	default:
 		return nil, errors.New("unknown version")
 	}
@@ -323,6 +357,12 @@ func (v *VersionedExecutionPayload) Transactions() ([]paris.Transaction, error) 
 		}
 
 		return v.Amsterdam.Transactions, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return nil, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.Transactions, nil
 	default:
 		return nil, errors.New("unknown version")
 	}
@@ -363,6 +403,12 @@ func (v *VersionedExecutionPayload) Withdrawals() ([]*shanghai.Withdrawal, error
 		}
 
 		return v.Amsterdam.Withdrawals, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return nil, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.Withdrawals, nil
 	default:
 		return nil, errors.New("unknown version")
 	}
@@ -397,6 +443,12 @@ func (v *VersionedExecutionPayload) BlobGasUsed() (uint64, error) {
 		}
 
 		return v.Amsterdam.BlobGasUsed, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return 0, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.BlobGasUsed, nil
 	default:
 		return 0, errors.New("unknown version")
 	}
@@ -431,6 +483,12 @@ func (v *VersionedExecutionPayload) ExcessBlobGas() (uint64, error) {
 		}
 
 		return v.Amsterdam.ExcessBlobGas, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return 0, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.ExcessBlobGas, nil
 	default:
 		return 0, errors.New("unknown version")
 	}
@@ -450,6 +508,12 @@ func (v *VersionedExecutionPayload) BlockAccessList() (amsterdam.BlockAccessList
 		}
 
 		return v.Amsterdam.BlockAccessList, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return nil, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.BlockAccessList, nil
 	default:
 		return nil, errors.New("unknown version")
 	}
@@ -468,6 +532,12 @@ func (v *VersionedExecutionPayload) SlotNumber() (uint64, error) {
 		}
 
 		return v.Amsterdam.SlotNumber, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return 0, errors.New("no bogota payload")
+		}
+
+		return v.Bogota.SlotNumber, nil
 	default:
 		return 0, errors.New("unknown version")
 	}
@@ -512,6 +582,12 @@ func (v *VersionedExecutionPayload) String() string {
 		}
 
 		return v.Amsterdam.String()
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return ""
+		}
+
+		return v.Bogota.String()
 	default:
 		return "unknown version"
 	}

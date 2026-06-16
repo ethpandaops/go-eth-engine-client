@@ -43,6 +43,7 @@ var (
 	_ engine.GetPayloadBodiesProvider  = (*Service)(nil)
 	_ engine.CapabilitiesProvider      = (*Service)(nil)
 	_ engine.ClientVersionProvider     = (*Service)(nil)
+	_ engine.GetInclusionListProvider  = (*Service)(nil)
 )
 
 // Service is a JSON-RPC Engine API client.

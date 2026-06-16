@@ -20,7 +20,7 @@ import (
 )
 
 // VersionedBlobsBundle wraps the per-fork BlobsBundle types. Cancun and
-// Prague use V1; Osaka and Amsterdam use V2 (cell proofs).
+// Prague use V1; Osaka, Amsterdam, and Bogota use V2 (cell proofs).
 type VersionedBlobsBundle struct {
 	Version version.DataVersion
 
@@ -28,6 +28,7 @@ type VersionedBlobsBundle struct {
 	Prague    *cancun.BlobsBundle
 	Osaka     *osaka.BlobsBundle
 	Amsterdam *osaka.BlobsBundle
+	Bogota    *osaka.BlobsBundle
 }
 
 // IsEmpty returns true if no bundle is set for the current version.
@@ -41,6 +42,8 @@ func (v *VersionedBlobsBundle) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}

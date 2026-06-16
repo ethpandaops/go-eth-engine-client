@@ -21,8 +21,8 @@ import (
 
 // VersionedExecutionPayloadBody wraps the per-fork ExecutionPayloadBody
 // types. ExecutionPayloadBody is defined from shanghai onwards; the cancun,
-// prague, and osaka forks reuse the shanghai V1 schema, so their fields
-// point at *shanghai.ExecutionPayloadBody.
+// prague, and osaka forks reuse the shanghai V1 schema. Bogota reuses
+// amsterdam's V2 body (EIP-7805 does not change the body wire format).
 type VersionedExecutionPayloadBody struct {
 	Version version.DataVersion
 
@@ -31,6 +31,7 @@ type VersionedExecutionPayloadBody struct {
 	Prague    *shanghai.ExecutionPayloadBody
 	Osaka     *shanghai.ExecutionPayloadBody
 	Amsterdam *amsterdam.ExecutionPayloadBody
+	Bogota    *amsterdam.ExecutionPayloadBody
 }
 
 // IsEmpty returns true if no body is set for the current version.
@@ -46,6 +47,8 @@ func (v *VersionedExecutionPayloadBody) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}

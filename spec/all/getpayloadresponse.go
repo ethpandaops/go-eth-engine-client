@@ -55,7 +55,10 @@ func (r *GetPayloadResponse) viewType() (any, error) {
 		return (*prague.GetPayloadResponse)(nil), nil
 	case version.DataVersionOsaka:
 		return (*osaka.GetPayloadResponse)(nil), nil
-	case version.DataVersionAmsterdam:
+	case version.DataVersionAmsterdam,
+		version.DataVersionBogota:
+		// Bogota reuses Amsterdam's V6 response (EIP-7805 does not add
+		// fields to the build result).
 		return (*amsterdam.GetPayloadResponse)(nil), nil
 	default:
 		return nil, fmt.Errorf("GetPayloadResponse: unsupported version %d", r.Version)

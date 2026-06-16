@@ -1,0 +1,11 @@
+package: .
+legacy: true
+without-dynamic-expressions: true
+
+types:
+  - name: PayloadAttributes
+    output: payloadattributes_ssz.go
+  - name: NewPayloadRequest
+    output: newpayloadrequest_ssz.go
+  - name: ForkchoiceUpdatedRequest
+    output: forkchoiceupdatedrequest_ssz.go

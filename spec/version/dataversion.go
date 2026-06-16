@@ -46,6 +46,10 @@ const (
 	// (ExecutionPayloadV4, PayloadAttributesV4, ExecutionPayloadBodyV2,
 	// GetPayloadResponseV6, BlobCellsAndProofsV1).
 	DataVersionAmsterdam
+	// DataVersionBogota adds inclusion lists (EIP-7805): PayloadAttributesV5
+	// with inclusionListTransactions, engine_newPayloadV6 with a 5th
+	// inclusionListTransactions parameter, and engine_getInclusionListV1.
+	DataVersionBogota
 )
 
 var dataVersionStrings = [...]string{
@@ -56,6 +60,7 @@ var dataVersionStrings = [...]string{
 	"prague",
 	"osaka",
 	"amsterdam",
+	"bogota",
 }
 
 var dataVersionMap = map[string]DataVersion{
@@ -65,6 +70,7 @@ var dataVersionMap = map[string]DataVersion{
 	`"prague"`:    DataVersionPrague,
 	`"osaka"`:     DataVersionOsaka,
 	`"amsterdam"`: DataVersionAmsterdam,
+	`"bogota"`:    DataVersionBogota,
 }
 
 // String returns a string representation of the data version.

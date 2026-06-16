@@ -44,7 +44,9 @@ func (b *ExecutionPayloadBody) viewType() (any, error) {
 		version.DataVersionPrague,
 		version.DataVersionOsaka:
 		return (*shanghai.ExecutionPayloadBody)(nil), nil
-	case version.DataVersionAmsterdam:
+	case version.DataVersionAmsterdam,
+		version.DataVersionBogota:
+		// Bogota reuses Amsterdam's V2 body shape.
 		return (*amsterdam.ExecutionPayloadBody)(nil), nil
 	default:
 		return nil, fmt.Errorf("ExecutionPayloadBody: unsupported version %d", b.Version)

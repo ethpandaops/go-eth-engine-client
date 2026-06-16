@@ -110,7 +110,7 @@ func (s *Service) fetchPayloadBodies(
 		out := make([]*spec.VersionedExecutionPayloadBody, len(bodies))
 		for i, b := range bodies {
 			if b != nil {
-				out[i] = &spec.VersionedExecutionPayloadBody{Version: dataVersion, Amsterdam: b}
+				out[i] = wrapV2PayloadBody(dataVersion, b)
 			}
 		}
 
@@ -130,6 +130,24 @@ func (s *Service) fetchPayloadBodies(
 	}
 
 	return out, nil
+}
+
+// wrapV2PayloadBody stores a V2 (amsterdam-shaped) body in the
+// VersionedExecutionPayloadBody field matching dataVersion.
+func wrapV2PayloadBody(
+	dataVersion version.DataVersion,
+	body *amsterdam.ExecutionPayloadBody,
+) *spec.VersionedExecutionPayloadBody {
+	out := &spec.VersionedExecutionPayloadBody{Version: dataVersion}
+
+	switch dataVersion {
+	case version.DataVersionBogota:
+		out.Bogota = body
+	default:
+		out.Amsterdam = body
+	}
+
+	return out
 }
 
 // wrapV1PayloadBody stores a V1 (shanghai-shaped) body in the
@@ -177,7 +195,8 @@ func payloadBodiesToAgnostic(
 }
 
 // payloadBodiesByHashMethod returns the engine_getPayloadBodiesByHash method
-// name for the version and whether it is the V2 (amsterdam) variant.
+// name for the version and whether it is the V2 (amsterdam-shaped) variant.
+// Bogota inherits V2 (the body wire format is unchanged).
 func payloadBodiesByHashMethod(v version.DataVersion) (string, bool, error) {
 	switch v {
 	case version.DataVersionShanghai,
@@ -185,7 +204,7 @@ func payloadBodiesByHashMethod(v version.DataVersion) (string, bool, error) {
 		version.DataVersionPrague,
 		version.DataVersionOsaka:
 		return "engine_getPayloadBodiesByHashV1", false, nil
-	case version.DataVersionAmsterdam:
+	case version.DataVersionAmsterdam, version.DataVersionBogota:
 		return "engine_getPayloadBodiesByHashV2", true, nil
 	default:
 		return "", false, errors.Errorf("GetPayloadBodiesByHash: unsupported version %s", v)
@@ -201,7 +220,7 @@ func payloadBodiesByRangeMethod(v version.DataVersion) (string, bool, error) {
 		version.DataVersionPrague,
 		version.DataVersionOsaka:
 		return "engine_getPayloadBodiesByRangeV1", false, nil
-	case version.DataVersionAmsterdam:
+	case version.DataVersionAmsterdam, version.DataVersionBogota:
 		return "engine_getPayloadBodiesByRangeV2", true, nil
 	default:
 		return "", false, errors.Errorf("GetPayloadBodiesByRange: unsupported version %s", v)

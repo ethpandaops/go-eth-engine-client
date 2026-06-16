@@ -41,7 +41,9 @@ func (b *BlobAndProof) viewType() (any, error) {
 	switch b.Version {
 	case version.DataVersionCancun, version.DataVersionPrague:
 		return (*cancun.BlobAndProof)(nil), nil
-	case version.DataVersionOsaka, version.DataVersionAmsterdam:
+	case version.DataVersionOsaka,
+		version.DataVersionAmsterdam,
+		version.DataVersionBogota:
 		return (*osaka.BlobAndProof)(nil), nil
 	default:
 		return nil, fmt.Errorf("BlobAndProof: unsupported version %d", b.Version)

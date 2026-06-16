@@ -20,6 +20,7 @@ import (
 
 	"github.com/ethpandaops/go-eth-engine-client/spec"
 	"github.com/ethpandaops/go-eth-engine-client/spec/amsterdam"
+	"github.com/ethpandaops/go-eth-engine-client/spec/bogota"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
 	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
 	"github.com/ethpandaops/go-eth-engine-client/spec/shanghai"
@@ -53,6 +54,8 @@ func (r *ForkchoiceUpdatedRequest) viewType() (any, error) {
 		return (*cancun.ForkchoiceUpdatedRequest)(nil), nil
 	case version.DataVersionAmsterdam:
 		return (*amsterdam.ForkchoiceUpdatedRequest)(nil), nil
+	case version.DataVersionBogota:
+		return (*bogota.ForkchoiceUpdatedRequest)(nil), nil
 	default:
 		return nil, fmt.Errorf("ForkchoiceUpdatedRequest: unsupported version %d", r.Version)
 	}
@@ -83,6 +86,8 @@ func (r *ForkchoiceUpdatedRequest) FromView(view any) error {
 			r.Version = version.DataVersionCancun
 		case *amsterdam.ForkchoiceUpdatedRequest:
 			r.Version = version.DataVersionAmsterdam
+		case *bogota.ForkchoiceUpdatedRequest:
+			r.Version = version.DataVersionBogota
 		default:
 			return fmt.Errorf("ForkchoiceUpdatedRequest: unsupported view type %T", view)
 		}

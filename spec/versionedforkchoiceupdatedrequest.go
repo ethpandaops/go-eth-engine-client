@@ -15,6 +15,7 @@ package spec
 
 import (
 	"github.com/ethpandaops/go-eth-engine-client/spec/amsterdam"
+	"github.com/ethpandaops/go-eth-engine-client/spec/bogota"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
 	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
 	"github.com/ethpandaops/go-eth-engine-client/spec/shanghai"
@@ -23,11 +24,14 @@ import (
 
 // VersionedForkchoiceUpdatedRequest wraps the per-fork
 // ForkchoiceUpdatedRequest types. Prague and Osaka reuse cancun's V3.
+// Bogota's V5 mirrors amsterdam's V4 but with PayloadAttributesV5 in place
+// of V4 (adds `inclusionListTransactions`).
 //
-// CustodyColumns is the amsterdam-only third JSON-RPC parameter to
-// engine_forkchoiceUpdatedV4. It has no SSZ representation in the per-fork
-// request containers, so it is carried alongside them here for the
-// JSON-RPC client to consume when Version is amsterdam.
+// CustodyColumns is the third JSON-RPC parameter introduced in
+// engine_forkchoiceUpdatedV4 and inherited by V5. It has no SSZ
+// representation in the per-fork request containers, so it is carried
+// alongside them here for the JSON-RPC client to consume when Version is
+// amsterdam or bogota.
 type VersionedForkchoiceUpdatedRequest struct {
 	Version version.DataVersion
 
@@ -37,6 +41,7 @@ type VersionedForkchoiceUpdatedRequest struct {
 	Prague         *cancun.ForkchoiceUpdatedRequest
 	Osaka          *cancun.ForkchoiceUpdatedRequest
 	Amsterdam      *amsterdam.ForkchoiceUpdatedRequest
+	Bogota         *bogota.ForkchoiceUpdatedRequest
 	CustodyColumns *amsterdam.CustodyColumns
 }
 
@@ -55,6 +60,8 @@ func (v *VersionedForkchoiceUpdatedRequest) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}

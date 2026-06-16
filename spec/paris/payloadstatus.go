@@ -33,6 +33,12 @@ const (
 	PayloadValidationStatusSyncing PayloadValidationStatus = 2
 	// PayloadValidationStatusAccepted is the SSZ enum value for "ACCEPTED".
 	PayloadValidationStatusAccepted PayloadValidationStatus = 3
+	// PayloadValidationStatusInclusionListUnsatisfied is the bogota-only
+	// "INCLUSION_LIST_UNSATISFIED" status returned by engine_newPayloadV6 when
+	// the payload is otherwise VALID but fails the EIP-7805 inclusion-list
+	// constraints. Appended after ACCEPTED in the
+	// `PayloadStatusInclusionListUnsatisfied` enum.
+	PayloadValidationStatusInclusionListUnsatisfied PayloadValidationStatus = 4
 	// PayloadValidationStatusInvalidBlockHash is the JSON-only legacy
 	// "INVALID_BLOCK_HASH" status from Paris. It has no SSZ encoding
 	// (ssz-encoding.md's status table omits it).
@@ -40,19 +46,21 @@ const (
 )
 
 var payloadValidationStatusStrings = map[PayloadValidationStatus]string{
-	PayloadValidationStatusValid:            "VALID",
-	PayloadValidationStatusInvalid:          "INVALID",
-	PayloadValidationStatusSyncing:          "SYNCING",
-	PayloadValidationStatusAccepted:         "ACCEPTED",
-	PayloadValidationStatusInvalidBlockHash: "INVALID_BLOCK_HASH",
+	PayloadValidationStatusValid:                    "VALID",
+	PayloadValidationStatusInvalid:                  "INVALID",
+	PayloadValidationStatusSyncing:                  "SYNCING",
+	PayloadValidationStatusAccepted:                 "ACCEPTED",
+	PayloadValidationStatusInclusionListUnsatisfied: "INCLUSION_LIST_UNSATISFIED",
+	PayloadValidationStatusInvalidBlockHash:         "INVALID_BLOCK_HASH",
 }
 
 var payloadValidationStatusFromString = map[string]PayloadValidationStatus{
-	"VALID":              PayloadValidationStatusValid,
-	"INVALID":            PayloadValidationStatusInvalid,
-	"SYNCING":            PayloadValidationStatusSyncing,
-	"ACCEPTED":           PayloadValidationStatusAccepted,
-	"INVALID_BLOCK_HASH": PayloadValidationStatusInvalidBlockHash,
+	"VALID":                      PayloadValidationStatusValid,
+	"INVALID":                    PayloadValidationStatusInvalid,
+	"SYNCING":                    PayloadValidationStatusSyncing,
+	"ACCEPTED":                   PayloadValidationStatusAccepted,
+	"INCLUSION_LIST_UNSATISFIED": PayloadValidationStatusInclusionListUnsatisfied,
+	"INVALID_BLOCK_HASH":         PayloadValidationStatusInvalidBlockHash,
 }
 
 // String returns the wire-format string for the validation status.

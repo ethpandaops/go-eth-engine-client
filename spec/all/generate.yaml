@@ -18,6 +18,7 @@ types:
       - ../shanghai.PayloadAttributes
       - ../cancun.PayloadAttributes
       - ../amsterdam.PayloadAttributes
+      - ../bogota.PayloadAttributes
 
   - name: ExecutionPayloadBody
     output: executionpayloadbody_ssz.go
@@ -49,6 +50,7 @@ types:
       - ../cancun.NewPayloadRequest
       - ../prague.NewPayloadRequest
       - ../amsterdam.NewPayloadRequest
+      - ../bogota.NewPayloadRequest
 
   - name: ForkchoiceUpdatedRequest
     output: forkchoiceupdatedrequest_ssz.go
@@ -58,6 +60,7 @@ types:
       - ../shanghai.ForkchoiceUpdatedRequest
       - ../cancun.ForkchoiceUpdatedRequest
       - ../amsterdam.ForkchoiceUpdatedRequest
+      - ../bogota.ForkchoiceUpdatedRequest
 
   - name: GetPayloadResponse
     output: getpayloadresponse_ssz.go

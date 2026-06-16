@@ -25,6 +25,15 @@ import (
 	"github.com/ethpandaops/go-eth-engine-client/spec/version"
 )
 
+// transactionList coerces a nil slice to a non-nil empty slice.
+func transactionList(in []paris.Transaction) []paris.Transaction {
+	if in == nil {
+		return []paris.Transaction{}
+	}
+
+	return in
+}
+
 // NewPayload submits an execution payload for validation, dispatching to the
 // engine_newPayload method version that matches request.Version.
 //
@@ -90,6 +99,19 @@ func (s *Service) NewPayload(
 			hashList(r.ExpectedBlobVersionedHashes),
 			r.ParentBeaconBlockRoot,
 			executionRequestList(r.ExecutionRequests),
+		}
+	case version.DataVersionBogota:
+		if request.Bogota == nil || request.Bogota.ExecutionPayload == nil {
+			return nil, errors.New("NewPayload: nil bogota request")
+		}
+
+		r := request.Bogota
+		method, params = "engine_newPayloadV6", []any{
+			r.ExecutionPayload,
+			hashList(r.ExpectedBlobVersionedHashes),
+			r.ParentBeaconBlockRoot,
+			executionRequestList(r.ExecutionRequests),
+			transactionList(r.InclusionListTransactions),
 		}
 	default:
 		return nil, errors.Errorf("NewPayload: unsupported version %s", request.Version)

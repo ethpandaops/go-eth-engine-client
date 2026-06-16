@@ -20,8 +20,8 @@ import (
 )
 
 // VersionedBlobAndProof wraps the per-fork BlobAndProof types. Cancun and
-// prague use V1 (single proof per blob); osaka and amsterdam use V2 (cell
-// proofs).
+// prague use V1 (single proof per blob); osaka, amsterdam, and bogota use
+// V2 (cell proofs).
 type VersionedBlobAndProof struct {
 	Version version.DataVersion
 
@@ -29,6 +29,7 @@ type VersionedBlobAndProof struct {
 	Prague    *cancun.BlobAndProof
 	Osaka     *osaka.BlobAndProof
 	Amsterdam *osaka.BlobAndProof
+	Bogota    *osaka.BlobAndProof
 }
 
 // IsEmpty returns true if nothing is set for the current version.
@@ -42,6 +43,8 @@ func (v *VersionedBlobAndProof) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}

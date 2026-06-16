@@ -42,7 +42,9 @@ func (b *BlobsBundle) viewType() (any, error) {
 	switch b.Version {
 	case version.DataVersionCancun, version.DataVersionPrague:
 		return (*cancun.BlobsBundle)(nil), nil
-	case version.DataVersionOsaka, version.DataVersionAmsterdam:
+	case version.DataVersionOsaka,
+		version.DataVersionAmsterdam,
+		version.DataVersionBogota:
 		return (*osaka.BlobsBundle)(nil), nil
 	default:
 		return nil, fmt.Errorf("BlobsBundle: unsupported version %d", b.Version)

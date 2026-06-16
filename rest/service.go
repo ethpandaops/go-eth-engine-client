@@ -53,6 +53,7 @@ var (
 	_ engine.GetPayloadBodiesProvider  = (*Service)(nil)
 	_ engine.CapabilitiesProvider      = (*Service)(nil)
 	_ engine.ClientVersionProvider     = (*Service)(nil)
+	_ engine.GetInclusionListProvider  = (*Service)(nil)
 )
 
 // DefaultBasePath is the path prefix mandated by the Marius spec for all

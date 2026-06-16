@@ -17,6 +17,7 @@ import (
 	"errors"
 
 	"github.com/ethpandaops/go-eth-engine-client/spec/amsterdam"
+	"github.com/ethpandaops/go-eth-engine-client/spec/bogota"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
 	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
 	"github.com/ethpandaops/go-eth-engine-client/spec/shanghai"
@@ -24,7 +25,8 @@ import (
 )
 
 // VersionedPayloadAttributes wraps the per-fork PayloadAttributes types.
-// Prague and Osaka reuse cancun's PayloadAttributesV3.
+// Prague and Osaka reuse cancun's PayloadAttributesV3. Bogota's V5 extends
+// amsterdam's V4 with an `inclusionListTransactions` field.
 type VersionedPayloadAttributes struct {
 	Version version.DataVersion
 
@@ -34,6 +36,7 @@ type VersionedPayloadAttributes struct {
 	Prague    *cancun.PayloadAttributes
 	Osaka     *cancun.PayloadAttributes
 	Amsterdam *amsterdam.PayloadAttributes
+	Bogota    *bogota.PayloadAttributes
 }
 
 // IsEmpty returns true if no attributes are set for the current version.
@@ -51,6 +54,8 @@ func (v *VersionedPayloadAttributes) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}
@@ -95,6 +100,12 @@ func (v *VersionedPayloadAttributes) Timestamp() (uint64, error) {
 		}
 
 		return v.Amsterdam.Timestamp, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return 0, errors.New("no bogota attributes")
+		}
+
+		return v.Bogota.Timestamp, nil
 	default:
 		return 0, errors.New("unknown version")
 	}
@@ -139,6 +150,12 @@ func (v *VersionedPayloadAttributes) SuggestedFeeRecipient() (paris.Address, err
 		}
 
 		return v.Amsterdam.SuggestedFeeRecipient, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return paris.Address{}, errors.New("no bogota attributes")
+		}
+
+		return v.Bogota.SuggestedFeeRecipient, nil
 	default:
 		return paris.Address{}, errors.New("unknown version")
 	}
@@ -179,6 +196,12 @@ func (v *VersionedPayloadAttributes) Withdrawals() ([]*shanghai.Withdrawal, erro
 		}
 
 		return v.Amsterdam.Withdrawals, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return nil, errors.New("no bogota attributes")
+		}
+
+		return v.Bogota.Withdrawals, nil
 	default:
 		return nil, errors.New("unknown version")
 	}
@@ -213,6 +236,12 @@ func (v *VersionedPayloadAttributes) ParentBeaconBlockRoot() (paris.Hash32, erro
 		}
 
 		return v.Amsterdam.ParentBeaconBlockRoot, nil
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return paris.Hash32{}, errors.New("no bogota attributes")
+		}
+
+		return v.Bogota.ParentBeaconBlockRoot, nil
 	default:
 		return paris.Hash32{}, errors.New("unknown version")
 	}
@@ -257,6 +286,12 @@ func (v *VersionedPayloadAttributes) String() string {
 		}
 
 		return v.Amsterdam.String()
+	case version.DataVersionBogota:
+		if v.Bogota == nil {
+			return ""
+		}
+
+		return v.Bogota.String()
 	default:
 		return "unknown version"
 	}

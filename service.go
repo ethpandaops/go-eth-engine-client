@@ -50,7 +50,7 @@ type Service interface {
 }
 
 // NewPayloadProvider is the interface for submitting execution payloads
-// (engine_newPayloadV1..V5, selected by the request's Version).
+// (engine_newPayloadV1..V6, selected by the request's Version).
 type NewPayloadProvider interface {
 	// NewPayload submits an execution payload for validation.
 	NewPayload(
@@ -66,7 +66,7 @@ type NewPayloadProvider interface {
 }
 
 // ForkchoiceUpdatedProvider is the interface for updating fork choice
-// (engine_forkchoiceUpdatedV1..V4, selected by the request's Version).
+// (engine_forkchoiceUpdatedV1..V5, selected by the request's Version).
 type ForkchoiceUpdatedProvider interface {
 	// ForkchoiceUpdated updates the fork choice and optionally starts a
 	// payload build.
@@ -190,4 +190,17 @@ type ClientVersionProvider interface {
 		ctx context.Context,
 		clientVersion *identification.ClientVersion,
 	) ([]*identification.ClientVersion, error)
+}
+
+// GetInclusionListProvider is the interface for fetching the EL's
+// EIP-7805 inclusion list (engine_getInclusionListV1, bogota+). The result
+// is an array of opaque EIP-2718 transaction byte strings whose total
+// RLP byte length is bounded by [bogota.MaxBytesPerInclusionList].
+type GetInclusionListProvider interface {
+	// GetInclusionList obtains an inclusion list built upon the given block
+	// hash from the EL's local mempool view.
+	GetInclusionList(
+		ctx context.Context,
+		blockHash paris.Hash32,
+	) ([]paris.Transaction, error)
 }

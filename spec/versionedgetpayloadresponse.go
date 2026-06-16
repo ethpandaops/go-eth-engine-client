@@ -24,7 +24,8 @@ import (
 
 // VersionedGetPayloadResponse wraps the per-fork engine_getPayload response
 // containers. Paris (V1) returns an ExecutionPayload directly without a
-// wrapper container, so it has no entry here.
+// wrapper container, so it has no entry here. Bogota reuses amsterdam's V6
+// response shape (no fields added by EIP-7805).
 type VersionedGetPayloadResponse struct {
 	Version version.DataVersion
 
@@ -33,6 +34,7 @@ type VersionedGetPayloadResponse struct {
 	Prague    *prague.GetPayloadResponse
 	Osaka     *osaka.GetPayloadResponse
 	Amsterdam *amsterdam.GetPayloadResponse
+	Bogota    *amsterdam.GetPayloadResponse
 }
 
 // IsEmpty returns true if no response is set for the current version.
@@ -48,6 +50,8 @@ func (v *VersionedGetPayloadResponse) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}

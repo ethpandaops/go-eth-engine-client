@@ -20,6 +20,7 @@ import (
 
 	"github.com/ethpandaops/go-eth-engine-client/spec"
 	"github.com/ethpandaops/go-eth-engine-client/spec/amsterdam"
+	"github.com/ethpandaops/go-eth-engine-client/spec/bogota"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
 	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
 	"github.com/ethpandaops/go-eth-engine-client/spec/prague"
@@ -30,7 +31,8 @@ import (
 // NewPayloadRequest is a fork-agnostic engine_newPayload request. The
 // nested ExecutionPayload is itself a fork-agnostic union; ExpectedBlob*,
 // ParentBeaconBlockRoot, and ExecutionRequests appear from cancun and
-// prague respectively.
+// prague respectively. InclusionListTransactions is the bogota-and-later
+// EIP-7805 inclusion-list parameter.
 type NewPayloadRequest struct {
 	Version version.DataVersion
 
@@ -38,6 +40,7 @@ type NewPayloadRequest struct {
 	ExpectedBlobVersionedHashes []paris.Hash32            // cancun+
 	ParentBeaconBlockRoot       paris.Hash32              // cancun+
 	ExecutionRequests           []prague.ExecutionRequest // prague+
+	InclusionListTransactions   []paris.Transaction       // bogota+
 }
 
 func (r *NewPayloadRequest) viewType() (any, error) {
@@ -52,6 +55,8 @@ func (r *NewPayloadRequest) viewType() (any, error) {
 		return (*prague.NewPayloadRequest)(nil), nil
 	case version.DataVersionAmsterdam:
 		return (*amsterdam.NewPayloadRequest)(nil), nil
+	case version.DataVersionBogota:
+		return (*bogota.NewPayloadRequest)(nil), nil
 	default:
 		return nil, fmt.Errorf("NewPayloadRequest: unsupported version %d", r.Version)
 	}
@@ -84,6 +89,8 @@ func (r *NewPayloadRequest) FromView(view any) error {
 			r.Version = version.DataVersionPrague
 		case *amsterdam.NewPayloadRequest:
 			r.Version = version.DataVersionAmsterdam
+		case *bogota.NewPayloadRequest:
+			r.Version = version.DataVersionBogota
 		default:
 			return fmt.Errorf("NewPayloadRequest: unsupported view type %T", view)
 		}

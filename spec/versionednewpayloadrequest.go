@@ -15,6 +15,7 @@ package spec
 
 import (
 	"github.com/ethpandaops/go-eth-engine-client/spec/amsterdam"
+	"github.com/ethpandaops/go-eth-engine-client/spec/bogota"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
 	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
 	"github.com/ethpandaops/go-eth-engine-client/spec/prague"
@@ -24,7 +25,8 @@ import (
 
 // VersionedNewPayloadRequest wraps the per-fork NewPayloadRequest types.
 // Osaka reuses prague's V4 newPayload request, so its field points at
-// *prague.NewPayloadRequest.
+// *prague.NewPayloadRequest. Bogota uses its own V6 request, which extends
+// V5 with an `inclusionListTransactions` parameter.
 type VersionedNewPayloadRequest struct {
 	Version version.DataVersion
 
@@ -34,6 +36,7 @@ type VersionedNewPayloadRequest struct {
 	Prague    *prague.NewPayloadRequest
 	Osaka     *prague.NewPayloadRequest
 	Amsterdam *amsterdam.NewPayloadRequest
+	Bogota    *bogota.NewPayloadRequest
 }
 
 // IsEmpty returns true if no request is set for the current version.
@@ -51,6 +54,8 @@ func (v *VersionedNewPayloadRequest) IsEmpty() bool {
 		return v.Osaka == nil
 	case version.DataVersionAmsterdam:
 		return v.Amsterdam == nil
+	case version.DataVersionBogota:
+		return v.Bogota == nil
 	default:
 		return true
 	}

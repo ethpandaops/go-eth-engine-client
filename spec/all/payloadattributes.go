@@ -21,6 +21,7 @@ import (
 
 	"github.com/ethpandaops/go-eth-engine-client/spec"
 	"github.com/ethpandaops/go-eth-engine-client/spec/amsterdam"
+	"github.com/ethpandaops/go-eth-engine-client/spec/bogota"
 	"github.com/ethpandaops/go-eth-engine-client/spec/cancun"
 	"github.com/ethpandaops/go-eth-engine-client/spec/paris"
 	"github.com/ethpandaops/go-eth-engine-client/spec/shanghai"
@@ -32,13 +33,14 @@ import (
 type PayloadAttributes struct {
 	Version version.DataVersion
 
-	Timestamp             uint64
-	PrevRandao            paris.Hash32
-	SuggestedFeeRecipient paris.Address
-	Withdrawals           []*shanghai.Withdrawal // shanghai+
-	ParentBeaconBlockRoot paris.Hash32           // cancun+
-	SlotNumber            uint64                 // amsterdam+
-	TargetGasLimit        uint64                 // amsterdam+
+	Timestamp                 uint64
+	PrevRandao                paris.Hash32
+	SuggestedFeeRecipient     paris.Address
+	Withdrawals               []*shanghai.Withdrawal // shanghai+
+	ParentBeaconBlockRoot     paris.Hash32           // cancun+
+	SlotNumber                uint64                 // amsterdam+
+	TargetGasLimit            uint64                 // amsterdam+
+	InclusionListTransactions []paris.Transaction    // bogota+
 }
 
 // viewType returns a typed nil pointer to the fork-specific PayloadAttributes
@@ -55,6 +57,8 @@ func (p *PayloadAttributes) viewType() (any, error) {
 		return (*cancun.PayloadAttributes)(nil), nil
 	case version.DataVersionAmsterdam:
 		return (*amsterdam.PayloadAttributes)(nil), nil
+	case version.DataVersionBogota:
+		return (*bogota.PayloadAttributes)(nil), nil
 	default:
 		return nil, fmt.Errorf("PayloadAttributes: unsupported version %d", p.Version)
 	}
@@ -94,6 +98,8 @@ func payloadAttributesViewVersion(view any) (version.DataVersion, error) {
 		return version.DataVersionCancun, nil
 	case *amsterdam.PayloadAttributes:
 		return version.DataVersionAmsterdam, nil
+	case *bogota.PayloadAttributes:
+		return version.DataVersionBogota, nil
 	default:
 		return version.DataVersionUnknown, fmt.Errorf("PayloadAttributes: unsupported view type %T", view)
 	}

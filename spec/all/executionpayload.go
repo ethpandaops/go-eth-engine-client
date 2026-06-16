@@ -68,7 +68,10 @@ func (e *ExecutionPayload) viewType() (any, error) {
 		version.DataVersionOsaka:
 		// Prague and Osaka reuse the Cancun execution-payload schema.
 		return (*cancun.ExecutionPayload)(nil), nil
-	case version.DataVersionAmsterdam:
+	case version.DataVersionAmsterdam,
+		version.DataVersionBogota:
+		// Bogota reuses the Amsterdam execution-payload schema (EIP-7805
+		// does not change the payload wire format).
 		return (*amsterdam.ExecutionPayload)(nil), nil
 	default:
 		return nil, fmt.Errorf("ExecutionPayload: unsupported version %d", e.Version)

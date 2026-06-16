@@ -64,6 +64,10 @@ func (s *Service) GetPayload(
 	case version.DataVersionAmsterdam:
 		out.Amsterdam = &amsterdam.GetPayloadResponse{}
 		method, target = "engine_getPayloadV6", out.Amsterdam
+	case version.DataVersionBogota:
+		// Bogota reuses Amsterdam's V6 response container.
+		out.Bogota = &amsterdam.GetPayloadResponse{}
+		method, target = "engine_getPayloadV6", out.Bogota
 	default:
 		return nil, errors.Errorf(
 			"GetPayload: unsupported version %s (paris V1 returns a bare payload)",
